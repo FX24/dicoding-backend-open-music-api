@@ -1,0 +1,4 @@
+node_modules
+notes-app-dicoding.pem
+.env
+.prod.env
