@@ -5,20 +5,19 @@ const { mapDBToModel } = require('../../utils');
 const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
 
-class SongssService {
+class SongsService {
   constructor() {
     this._pool = new Pool();
   }
 
-  async addSong({ name, year }) {
+  async addSong({ title, year, genre, performer, duration, albumId }) {
     const id = nanoid(16);
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
 
     const query = {
       text: 'INSERT INTO songs VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id',
-      values: [id, title, year, genre, performer, 
-        duration, albumId, createdAt, updatedAt],
+      values: [id, title, year, genre, performer, duration, albumId, createdAt, updatedAt],
     };
 
     const result = await this._pool.query(query);
@@ -49,12 +48,11 @@ class SongssService {
     return result.rows.map(mapDBToModel)[0];
   }
 
-  async editSongById(id, { name, year }) {
+  async editSongById(id, { title, year, genre, performer, duration, albumId }) {
     const updatedAt = new Date().toISOString();
     const query = {
       text: 'UPDATE songs SET title = $1, year = $2, genre = $3, performer = $4, duration = $5, albumId = $6, createdAt = $7 WHERE id = $8 RETURNING id',
-      values: [title, year, genre, performer, 
-        duration, albumId, updatedAt, id],
+      values: [title, year, genre, performer, duration, albumId, updatedAt, id],
     };
 
     const result = await this._pool.query(query);
@@ -78,4 +76,4 @@ class SongssService {
   }
 }
 
-module.exports = SongssService;
+module.exports = SongsService;

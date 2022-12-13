@@ -23,7 +23,7 @@ class AlbumsService {
     const result = await this._pool.query(query);
 
     if (!result[0].id) {
-      throw new InvariantError('Album gagal ditambahka');
+      throw new InvariantError('Album gagal ditambahkan');
     }
 
     return result[0].id;
