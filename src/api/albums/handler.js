@@ -1,4 +1,5 @@
 const autoBind = require('auto-bind');
+// const ClientError = require('./exceptions/ClientError');
 
 class AlbumsHandler {
   constructor(service, validator) {
@@ -9,30 +10,39 @@ class AlbumsHandler {
   }
 
   async postAlbumHandler(request, h) {
-    this._validator.validateAlbumPayload(request.payload);
-    const { name, year } = request.payload;
-
-    const albumId = await this._service.addAlbum({ name, year });
-
-    const response = h.response({
-      status: 'success',
-      message: 'Album berhasil ditambahkan',
-      data: {
-        albumId,
-      },
-    });
-
-    response.code(201);
-    return response;
-  }
-
+    // try {
+      this._validator.validateAlbumPayload(request.payload);
+      const { name, year } = request.payload;
+  
+      const albumId = await this._service.addAlbum({ name, year });
+  
+      const response = h.response({
+        status: 'success',
+        message: 'Album berhasil ditambahkan',
+        data: {
+          albumId,
+        },
+      });
+  
+      response.code(201);
+      return response;
+    } 
+  
   async getAlbumByIdHandler(request, h) {
     const { id } = request.params;
     const album = await this._service.getAlbumById(id);
+    const songs = await this._service.getSongsByAlbumId(id);
+
+    
+    console.log(songs);
     return {
       status: 'success',
       data: {
-        album,
+        album
+          // id: album.id,
+          // name: album.name,
+          // year: album.year,
+          // songs: songs,
       },
     };
   }
@@ -41,7 +51,7 @@ class AlbumsHandler {
     this._validator.validateAlbumPayload(request.payload);
     const { name, year } = request.payload;
     const { id } = request.params;
-
+    
     await this._service.editAlbumById(id, { name, year });
 
     return {
