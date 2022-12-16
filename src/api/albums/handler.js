@@ -33,16 +33,12 @@ class AlbumsHandler {
     const album = await this._service.getAlbumById(id);
     const songs = await this._service.getSongsByAlbumId(id);
 
-    
-    console.log(songs);
+    album.songs = songs;
+
     return {
       status: 'success',
       data: {
-        album
-          // id: album.id,
-          // name: album.name,
-          // year: album.year,
-          // songs: songs,
+        album,
       },
     };
   }

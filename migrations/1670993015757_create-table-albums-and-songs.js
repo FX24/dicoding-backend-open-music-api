@@ -34,7 +34,7 @@ exports.up = pgm => {
     },
     genre: {
       type: 'TEXT',
-      notNull:false,
+      notNull:true,
     },
     duration: {
       type: 'INTEGER',
@@ -42,7 +42,7 @@ exports.up = pgm => {
     },
     album_id: {
       type: 'VARCHAR(50)',
-      notNull: true,
+      notNull:false,
     },
   });
 };
