@@ -1,7 +1,5 @@
-/* eslint-disable no-underscore-dangle */
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
-const { mapDBToModel } = require('../../utils/albums');
 const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
 
@@ -44,7 +42,7 @@ class AlbumsService {
   async editAlbumById(id, { name, year }) {
     const query = {
       text: 'UPDATE albums SET name = $1, year = $2 WHERE id = $3 RETURNING id',
-      values: [name, year, id]
+      values: [name, year, id],
     };
 
     const result = await this._pool.query(query);
@@ -67,7 +65,7 @@ class AlbumsService {
     }
   }
 
-  async getSongsByAlbumId(albumId){
+  async getSongsByAlbumId(albumId) {
     const query = {
       text: 'SELECT id, title, performer FROM songs WHERE album_id = $1',
       values: [albumId],

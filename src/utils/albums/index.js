@@ -1,5 +1,5 @@
 const mapDBToModel = ({
-  id, name, year, 
+  id, name, year,
 }) => ({
   id,
   name,

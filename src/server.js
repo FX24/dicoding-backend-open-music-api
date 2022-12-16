@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 require('dotenv').config();
 
 const Hapi = require('@hapi/hapi');
@@ -11,8 +12,6 @@ const AlbumsService = require('./services/postgres/AlbumsService');
 const SongsValidator = require('./validator/songs');
 const AlbumsValidator = require('./validator/albums');
 
-const InvariantError = require('./exceptions/InvariantError');
-const NotFoundError = require('./exceptions/NotFoundError');
 const ClientError = require('./exceptions/ClientError');
 
 const init = async () => {
@@ -57,11 +56,11 @@ const init = async () => {
         newResponse.code(response.statusCode);
         return newResponse;
       }
-      
+
       if (!response.isServer) {
         return h.continue;
       }
-      
+
       const newResponse = h.response({
         status: 'error',
         message: 'Terjadi kegagalan pada server kami',
@@ -69,7 +68,7 @@ const init = async () => {
       newResponse.code(500);
       return newResponse;
     }
-    
+
     return h.continue;
   });
 
